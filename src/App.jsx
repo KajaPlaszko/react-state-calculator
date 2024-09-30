@@ -9,6 +9,7 @@ function App() {
 	const [rightNumber, setRightNumber] = useState(0);
 	const [operatorObject, setOperatorObject] = useState("+");
   const [result, setResult] = useState(0);
+  const [storedValue, setStoredValue] = useState(null);
 
 	function handleLeftNumberClick(num) {
 		setLeftNumber((prev) => parseInt(prev.toString() + num.toString(), 10));
@@ -35,7 +36,7 @@ function App() {
         res = leftNumber * rightNumber;
         break;
       case "÷":
-        res = rightNumber !== 0 ? leftNumber / rightNumber : "Error"; // Prevent division by zero
+        res = rightNumber !== 0 ? leftNumber / rightNumber : "Error"; 
         break;
       default:
         res = 0;
@@ -50,6 +51,22 @@ function App() {
 
 	function handleClearLeft() {
     setLeftNumber(0);
+  }
+
+  function handleStoreClick() {
+    setStoredValue(result);
+  }
+
+  function handleRecallLeft () {
+    if (storedValue !== null) {
+      setLeftNumber(storedValue);
+    }
+  }
+
+  function handleRecallRight() {
+    if (storedValue !== null) {
+      setRightNumber(storedValue);
+    }
   }
 
 	return (
@@ -68,6 +85,8 @@ function App() {
 
 					<button onClick={handleClearLeft}>Clear</button>
 				</div>
+        <button onClick={handleRecallLeft}>Recall</button>
+
 			</div>
 
 			<div className="panel">
@@ -98,12 +117,15 @@ function App() {
 
 					<button onClick={handleClearRight}>Clear</button>
 				</div>
+        <button onClick={handleRecallRight}>Recall</button>
+
 			</div>
 
 			<div className="panel answer">
 				<p>{result}</p>
 				<div>
 					<button onClick={handleEqualsClick}>=</button>
+          <button onClick={handleStoreClick}>Store</button>
 				</div>
 			</div>
 		</div>
